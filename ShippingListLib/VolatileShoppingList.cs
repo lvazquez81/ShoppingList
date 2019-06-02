@@ -16,8 +16,16 @@ namespace ShippingListLib
 
         public int AddItem(string itemName)
         {
-            _list.Add(itemName);
-            return _list.Count;
+            if (!string.IsNullOrWhiteSpace(itemName))
+            {
+                _list.Add(itemName);
+                return _list.Count;
+            }
+            else
+            {
+                return -1;
+            }
+
         }
 
         public IList<string> GetList()
