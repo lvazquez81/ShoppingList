@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShippingListLib;
+using ShoppingListApi.Data;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ShoppingListApi
@@ -20,6 +23,15 @@ namespace ShoppingListApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //services.AddDbContext<ShoppingListDbContext>(opt =>
+            //    opt.UseInMemoryDatabase("ShoppngListDb"));
+
+            //services.AddDbContext<ShoppingListDbContext>(
+            //    opts => opts.UseSqlServer(Configuration["ConnectionString:Default"]));
+
+
+            services.AddSingleton<IShoppingListService, DumbShoppingListService>();
 
             services.AddSwaggerGen(
                 c =>

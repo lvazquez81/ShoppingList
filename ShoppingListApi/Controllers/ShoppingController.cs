@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShippingListLib;
+using ShoppingListApi.Data;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,15 +11,11 @@ namespace ShoppingListApi.Controllers
     [ApiController]
     public class ShoppingController : ControllerBase
     {
-        private IShoppingListService _data;
+        private readonly IShoppingListService _data;
 
-        public ShoppingController()
+        public ShoppingController(IShoppingListService dataSource)
         {
-            _data = new DumbShoppingListService();
-
-            // sample values
-            _data.AddItem("Milk");
-            _data.AddItem("Eggs");
+            _data = dataSource;
         }
 
         [HttpGet]
