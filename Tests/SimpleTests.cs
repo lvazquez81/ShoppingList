@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using ShippingListLib;
 using System.Collections.Generic;
 
 namespace Tests

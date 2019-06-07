@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShoppingListApi
 {
-    public class MyItem
+    public class AddItem
     {
-        [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
-
+        [Required]
         [JsonProperty(PropertyName = "item")]
         public string Item { get; set; }
     }

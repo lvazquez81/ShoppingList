@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShippingListLib;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShoppingListApi.Controllers
@@ -13,37 +10,61 @@ namespace ShoppingListApi.Controllers
     [ApiController]
     public class ShoppingController : ControllerBase
     {
-        private IShoppingList _list;
+        private IShoppingListService _data;
 
         public ShoppingController()
         {
-            _list = new VolatileShoppingList();
+            _data = new DumbShoppingListService();
 
             // sample values
-            _list.AddItem("Milk");
-            _list.AddItem("Eggs");
+            _data.AddItem("Milk");
+            _data.AddItem("Eggs");
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<string>> GetShoppingList()
+        public ActionResult<IList<string>> GetShoppingList()
         {
-            return _list.GetList().ToList();
+            return Ok(GetShoppingItems());
+        }
+
+        private IEnumerable<string> GetShoppingItems()
+        {
+            var itemQuery = from x in _data.GetList()
+                            select x.Value;
+
+            return itemQuery.ToList();
         }
 
         [HttpPost]
         public async Task<ActionResult<IEnumerable<string>>> AddItem()
         {
             string itemName = await Request.GetRawBodyStringAsync();
-            _list.AddItem(itemName);
+            int id = _data.AddItem(itemName);
 
-            return _list.GetList().ToList();
+            if(id > 0)
+            {
+                return Ok(GetShoppingItems());
+            }
+            else
+            {
+                return BadRequest($"Unable to add item: {itemName}");
+            }
+
+            
         }
         [HttpDelete("{id}")]
         public ActionResult<IEnumerable<string>> RemoveItem([FromBody] int id)
         {
-            bool result = _list.RemoveItem(id);
+            bool result = _data.RemoveItem(id);
 
-            return _list.GetList().ToList();
+            if (result)
+            {
+                return Ok(GetShoppingItems());
+            }
+            else
+            {
+                return BadRequest($"Unable to remove item with id: {id}");
+            }
         }
     }
 }
