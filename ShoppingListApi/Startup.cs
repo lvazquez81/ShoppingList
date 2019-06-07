@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShippingListLib;
 using ShoppingListApi.Data;
+using ShoppingListApi.Services;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ShoppingListApi
@@ -27,11 +28,10 @@ namespace ShoppingListApi
             //services.AddDbContext<ShoppingListDbContext>(opt =>
             //    opt.UseInMemoryDatabase("ShoppngListDb"));
 
-            //services.AddDbContext<ShoppingListDbContext>(
-            //    opts => opts.UseSqlServer(Configuration["ConnectionString:Default"]));
+            services.AddDbContext<ShoppingListDbContext>(
+                opts => opts.UseSqlServer(Configuration["ConnectionString:Default"]));
 
-
-            services.AddSingleton<IShoppingListService, DumbShoppingListService>();
+            services.AddScoped<IShoppingListService, DbShoppingListService>();
 
             services.AddSwaggerGen(
                 c =>
