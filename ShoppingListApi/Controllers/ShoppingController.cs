@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ShippingListLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShoppingListApi.Controllers
 {
@@ -22,6 +22,8 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpGet]
+        [ActionName("Index")]
+        [Produces("application/json")]
         public ActionResult<IList<string>> GetShoppingList()
         {
             return Ok(GetShoppingItems());
@@ -36,21 +38,23 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<string>>> AddItem()
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<IEnumerable<string>> AddItem([FromBody]AddItem item)
         {
-            string itemName = await Request.GetRawBodyStringAsync();
-            int id = _data.AddItem(itemName);
+            int id = _data.AddItem(item.Item);
 
-            if(id > 0)
+            if (id > 0)
             {
                 return Ok(GetShoppingItems());
             }
             else
             {
-                return BadRequest($"Unable to add item: {itemName}");
+                return BadRequest($"Unable to add item: {item.Item}");
             }
 
-            
+
         }
         [HttpDelete("{id}")]
         public ActionResult<IEnumerable<string>> RemoveItem([FromBody] int id)
