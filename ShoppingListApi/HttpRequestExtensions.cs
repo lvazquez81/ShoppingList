@@ -20,10 +20,14 @@ namespace ShoppingListApi
         public static async Task<string> GetRawBodyStringAsync(this HttpRequest request, Encoding encoding = null)
         {
             if (encoding == null)
+            {
                 encoding = Encoding.UTF8;
+            }
 
-            using (StreamReader reader = new StreamReader(request.Body, encoding))
+            using (var reader = new StreamReader(request.Body, encoding))
+            {
                 return await reader.ReadToEndAsync();
+            }
         }
 
         /// <summary>
