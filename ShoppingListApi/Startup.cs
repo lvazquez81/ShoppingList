@@ -48,7 +48,6 @@ namespace ShoppingListApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Shopping List V1");
-                //c.RoutePrefix = string.Empty;
             });
 
             if (env.IsDevelopment())
