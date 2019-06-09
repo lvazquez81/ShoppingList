@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IList<MyItem>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>My Shopping List</h2>
+
+        <ul>
+            @foreach (var @item in Model)
+            {
+                <li>@item.Item</li>
+            }
+        </ul>
+
+    </div>
+</div>

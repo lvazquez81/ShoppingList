@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>My Shopping List</h2>
+
+        <ul>
+            @foreach (var @item in Model)
+            {
+                <li>@item.Item  <a href="">Delete</a></li>
+            }
+        </ul>
+
+    </div>
+</div>
