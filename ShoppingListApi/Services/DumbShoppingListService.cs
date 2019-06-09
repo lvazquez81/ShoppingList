@@ -5,21 +5,24 @@ namespace ShippingListLib
     /// <summary>
     /// Basic shopping list implementation with internal collection
     /// </summary>
-    public class VolatileShoppingList : IShoppingList
+    public class DumbShoppingListService : IShoppingListService
     {
-        private readonly IList<string> _list;
+        private readonly IDictionary<int, string> _data;
 
-        public VolatileShoppingList()
+        public DumbShoppingListService()
         {
-            _list = new List<string>();
+            _data = new Dictionary<int, string>();
         }
 
         public int AddItem(string itemName)
         {
             if (!string.IsNullOrWhiteSpace(itemName))
             {
-                _list.Add(itemName);
-                return _list.Count;
+                int id = _data.Count + 1;
+
+                _data.Add(id, itemName);
+
+                return id;
             }
             else
             {
@@ -28,22 +31,23 @@ namespace ShippingListLib
 
         }
 
-        public IList<string> GetList()
+        public IDictionary<int, string> GetList()
         {
-            return _list;
+            return _data;
         }
 
         public bool RemoveItem(int itemId)
         {
-            if (itemId > 0 && itemId <= _list.Count)
+            if (_data?.ContainsKey(itemId) ?? false)
             {
-                _list.RemoveAt(itemId - 1);
+                _data.Remove(itemId);
                 return true;
             }
             else
             {
                 return false;
             }
+
         }
     }
 }

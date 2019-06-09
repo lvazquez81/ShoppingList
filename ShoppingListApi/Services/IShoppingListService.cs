@@ -5,7 +5,7 @@ namespace ShippingListLib
     /// <summary>
     /// Basic shopping list operations
     /// </summary>
-    public interface IShoppingList
+    public interface IShoppingListService
     {
         /// <summary>
         /// Add item to our list
@@ -15,7 +15,7 @@ namespace ShippingListLib
         /// <summary>
         /// See what is in the list
         /// </summary>
-        IList<MyItem> GetList();
+        IDictionary<int, string> GetList();
 
         /// <summary>
         /// Remove any existing item
