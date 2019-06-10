@@ -3,10 +3,10 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <h2>My Shopping List</h2>
-
-        Item:
-        <input type="text" />
-        <input type="button" value="Save" />
+        <form method="POST">
+            <label for="NewItem">Item:</label>
+            <input type="text" name="txtItem" placeholder="Enter new shopping list item" />
+            <input type="submit" />
+        </form>
     </div>
 </div>

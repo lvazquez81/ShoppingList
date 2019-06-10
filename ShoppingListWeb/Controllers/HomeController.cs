@@ -22,9 +22,17 @@ namespace ShoppingListWeb.Controllers
             return View(items);
         }
 
-        public IActionResult Add()
+        public IActionResult Add(string txtItem)
         {
-            return View();
+            if (!string.IsNullOrWhiteSpace(txtItem))
+            {
+                _data.AddItem(txtItem);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Delete()
