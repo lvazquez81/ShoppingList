@@ -35,8 +35,13 @@ namespace ShoppingListWeb.Controllers
             }
         }
 
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
+            if(id > 0)
+            {
+                _data.RemoveItem(id);
+            }
+
             IList<MyItem> items = _data.GetList();
 
             return View(items);

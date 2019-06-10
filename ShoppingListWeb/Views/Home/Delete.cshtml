@@ -9,7 +9,9 @@
         <ul>
             @foreach (var @item in Model)
             {
-                <li>@item.Item  <a href="">Delete</a></li>
+                <li>
+                    @item.Item @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </li>
             }
         </ul>
 
