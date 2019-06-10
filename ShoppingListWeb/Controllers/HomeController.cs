@@ -27,24 +27,19 @@ namespace ShoppingListWeb.Controllers
             if (!string.IsNullOrWhiteSpace(txtItem))
             {
                 _data.AddItem(txtItem);
-                return RedirectToAction("Index");
             }
-            else
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            if(id > 0)
+            if (id > 0)
             {
                 _data.RemoveItem(id);
             }
 
-            IList<MyItem> items = _data.GetList();
-
-            return View(items);
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
