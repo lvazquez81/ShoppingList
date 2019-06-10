@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShippingListLib;
 using ShoppingListWeb.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,13 +8,16 @@ namespace ShoppingListWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IShoppingListService _data;
+
+        public HomeController(IShoppingListService dataSource)
+        {
+            _data = dataSource;
+        }
+
         public IActionResult Index()
         {
-            IList<MyItem> items = new List<MyItem>()
-            {
-                new MyItem(1, "Eggs"),
-                new MyItem(2, "Bacon")
-            };
+            IList<MyItem> items = _data.GetList();
 
             return View(items);
         }
@@ -25,11 +29,7 @@ namespace ShoppingListWeb.Controllers
 
         public IActionResult Delete()
         {
-            IList<MyItem> items = new List<MyItem>()
-            {
-                new MyItem(1, "Eggs"),
-                new MyItem(2, "Bacon")
-            };
+            IList<MyItem> items = _data.GetList();
 
             return View(items);
         }
